@@ -8,7 +8,7 @@
 
   <ul class="list-group">
         <li class="list-group-item"
-            v-for="item in items" 
+            v-for="item in stamps_items" 
             v-bind:key="item.id"
         >{{item.text}}
         <button 
@@ -55,7 +55,7 @@ export default {
   },
   data() {
     return {
-      items: [],
+      stamps_items: [],
       stamps: []
     }
   },
@@ -67,10 +67,10 @@ export default {
   },
   methods:{
     get() {
-        if (JSON.parse(listStorage.fetch('items')) !== null) {
-            this.items = JSON.parse(listStorage.fetch('items'))
+        if (JSON.parse(listStorage.fetch('stamps_items')) !== null) {
+            this.stamps_items = JSON.parse(listStorage.fetch('stamps_items'))
         } else {
-            this.items = [{"id":1, "text":"Check", "done":false}]
+            this.stamps_items = [{"id":1, "text":"Check", "done":false}]
         }
         if (JSON.parse(listStorage.fetch('stamps')) !== null) {
             this.stamps = JSON.parse(listStorage.fetch('stamps'))
@@ -79,14 +79,14 @@ export default {
         }
     },
     add(){
-        this.items.push({
-            "id": this.items.length + 1,
+        this.stamps_items.push({
+            "id": this.stamps_items.length + 1,
             "text":this.textVal,
             "done":true,
         })
     },
     entry(){
-        window.localStorage.setItem("items", JSON.stringify(this.items, null, 4))
+        window.localStorage.setItem("stamps_items", JSON.stringify(this.stamps_items, null, 4))
         alert("登録しました")
     },
     autoRemove(){
@@ -98,18 +98,18 @@ export default {
       }
       let today = Number(new Date().getDate())
       if (yesterday !== today){
-        window.localStorage.removeItem("items")
-        this.items = [{"id":1, "text":"Check", "done":false}]
+        window.localStorage.removeItem("stamps_items")
+        this.stamps_items = [{"id":1, "text":"Check", "done":false}]
         window.localStorage.removeItem("stamps")
         this.stamps = [{"id":1, "time":"Time Stamp"}]
-        window.localStorage.setItem("items", JSON.stringify(this.items, null, 4))
+        window.localStorage.setItem("stamps_items", JSON.stringify(this.stamps_items, null, 4))
         window.localStorage.removeItem("stamps")
       }
     },
     remove(){
       if (window.confirm("すべて削除しますか?")) {
-        window.localStorage.removeItem("items")
-        this.items = [{"id":1, "text":"Check", "done":false}]
+        window.localStorage.removeItem("stamps_items")
+        this.stamps_items = [{"id":1, "text":"Check", "done":false}]
         window.localStorage.removeItem("stamps")
         this.stamps = [{"id":1, "time":"Time Stamp"}]
 
@@ -118,19 +118,19 @@ export default {
     done(id){
         window.localStorage.setItem("date", new Date().getDate())
 
-        if(this.items.length === id){
+        if(this.stamps_items.length === id){
           let date = new Date() 
           this.stamps.push({
             "id": this.stamps.length + 1,
             "time":date.getHours() + "時" + date.getMinutes() + "分" + date.getSeconds() + "秒",
           })
           window.localStorage.setItem("stamps",  JSON.stringify(this.stamps, null, 4))
-          for (let i = 1; i <= this.items.length; i++)
-            this.items[i]["done"] = true
+          for (let i = 1; i <= this.stamps_items.length; i++)
+            this.stamps_items[i]["done"] = true
         }
-        this.items[id - 1]["done"] = false
+        this.stamps_items[id - 1]["done"] = false
         this.itmes[0]["done"] = false
-        window.localStorage.setItem("items", JSON.stringify(this.items, null, 4))
+        window.localStorage.setItem("stamps_items", JSON.stringify(this.stamps_items, null, 4))
 
     }
   }
