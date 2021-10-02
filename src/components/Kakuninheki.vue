@@ -98,8 +98,6 @@ export default {
       }
       let today = Number(new Date().getDate())
       if (yesterday !== today){
-        window.localStorage.removeItem("stamps_items")
-        this.stamps_items = [{"id":1, "text":"Check", "done":false}]
         window.localStorage.removeItem("stamps")
         this.stamps = [{"id":1, "time":"Time Stamp"}]
         window.localStorage.setItem("stamps_items", JSON.stringify(this.stamps_items, null, 4))
